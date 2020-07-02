@@ -25,7 +25,6 @@ p {
   margin-bottom: 0;
 }
 li {
-  border: 1px solid #3d82ad;
   border-radius: 4px;
   padding: 20px 0;
   margin-bottom: 4px;
@@ -58,4 +57,46 @@ input::-webkit-inner-spin-button {
   .clear {
     background-color: #3d82ad;
   }
+}
+
+.purpleBorder {
+  border: 1px solid #d834bd;
+}
+.purpleColor {
+  color: #d834bd;
+}
+
+.redBorder {
+  border: 1px solid red;
+}
+.redColor {
+  color: red;
+}
+
+.orangeBorder {
+  border: 1px solid orange;
+}
+.orangeColor {
+  color: orange;
+}
+
+.yellowBorder {
+  border: 1px solid #ffbf00;
+}
+.yellowColor {
+  color: #ffbf00;
+}
+
+.greenBorder {
+  border: 1px solid #64c900;
+}
+.greenColor {
+  color: #64c900;
+}
+
+.blueBorder {
+  border: 1px solid #00bbff;
+}
+.blueColor {
+  color: #00bbff;
 }

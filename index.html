@@ -45,7 +45,7 @@
           </div>
           <div class="d-flex flex-column align-items-center">
             <button id="submit" class="confirm btn mb-2">確認</button>
-            <button id="clear" class="clear btn">全部清除</button>
+            <button id="clearAll" class="clear btn">全部清除</button>
           </div>
         </div>
       </div>
@@ -62,5 +62,94 @@
         </div>
       </div>
     </div>
+
+    <script>
+      const height = document.querySelector("#height");
+      const weight = document.querySelector("#weight");
+      const submit = document.querySelector("#submit");
+      const clearAll = document.querySelector("#clearAll");
+
+      let bmiList = document.querySelector("#bmiList");
+      let bmiArray = [];
+
+      submit.addEventListener("click", addData);
+      clearAll.addEventListener("click", clearBMIList);
+
+      function addData() {
+        let heightNum = Number(height.value);
+        let weightNum = Number(weight.value);
+        let bmi = (weightNum / Math.pow(heightNum / 100, 2)).toFixed(2);
+        let status;
+        let border;
+        let textColor;
+
+        if (!heightNum && !weightNum) {
+          alert("請填入身高、體重");
+          return;
+        }
+        if (heightNum < 0 || weightNum < 0) {
+          alert("資料錯誤，請重新輸入");
+          return;
+        }
+        if (bmi >= 35) {
+          status = "重度肥胖";
+          border = "purpleBorder";
+          textColor = "purpleColor";
+        } else if (bmi >= 30) {
+          status = "中度肥胖";
+          border = "redBorder";
+          textColor = "redColor";
+        } else if (bmi >= 27) {
+          status = "輕度肥胖";
+          border = "orangeBorder";
+          textColor = "orangeColor";
+        } else if (bmi >= 24) {
+          status = "過重";
+          border = "yellowBorder";
+          textColor = "yellowColor";
+        } else if (bmi >= 18.5) {
+          status = "理想";
+          border = "greenBorder";
+          textColor = "greenColor";
+        } else if (bmi < 18.5 && bmi >= 0) {
+          status = "過輕";
+          border = "blueBorder";
+          textColor = "blueColor";
+        } else {
+          status = "計算錯誤，請重新輸入身高、體重";
+        }
+        bmiArray.push({
+          heightNum,
+          weightNum,
+          bmi,
+          status,
+          border,
+          textColor,
+        });
+        height.value = "";
+        weight.value = "";
+        render();
+      }
+
+      function render() {
+        let str = "";
+        bmiArray.forEach((item) => {
+          str += `
+          <li class="${item.border}">
+          <h3 class="${item.textColor}">${item.status}</h3>
+          <p class="${item.textColor}">BMI ${item.bmi}</p>
+          <p class="${item.textColor}">height：${item.heightNum}cm</p>
+          <p class="${item.textColor}">weight：${item.weightNum}kg</p>
+          </li>
+          `;
+        });
+        bmiList.innerHTML = str;
+      }
+
+      function clearBMIList() {
+        bmiArray.length = 0;
+        render();
+      }
+    </script>
   </body>
 </html>
