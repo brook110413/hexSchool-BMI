@@ -21,8 +21,8 @@
           大 AI 數據之 BMI 體重計
         </h1>
       </div>
-      <div class="physical">
-        <div class="container">
+      <div class="container">
+        <div class="physical">
           <div class="row d-flex justify-content-center">
             <div class="col-4">
               <div class="d-flex flex-column mb-4">
@@ -54,6 +54,7 @@
           <h2>
             BMI 記錄
           </h2>
+          <h3 id="count"></h3>
           <div class="row d-flex justify-content-center">
             <div class="col-6">
               <ul class="list-unstyled" id="bmiList"></ul>
@@ -68,15 +69,18 @@
       const weight = document.querySelector("#weight");
       const submit = document.querySelector("#submit");
       const clearAll = document.querySelector("#clearAll");
+      const bmiList = document.querySelector("#bmiList");
+      const count = document.querySelector("#count");
 
-      let bmiList = document.querySelector("#bmiList");
       let bmiArray = [];
+      let bmiAverage = 0;
 
       submit.addEventListener("click", addData);
       clearAll.addEventListener("click", clearBMIList);
       height.addEventListener("keydown", submitData);
       weight.addEventListener("keydown", submitData);
 
+      // 處理資料
       function addData() {
         let heightNum = Number(height.value);
         let weightNum = Number(weight.value);
@@ -115,8 +119,6 @@
           status = "過輕";
           border = "blueBorder";
           textColor = "blueColor";
-        } else {
-          status = "計算錯誤，請重新輸入身高、體重";
         }
         bmiArray.push({
           heightNum,
@@ -128,15 +130,17 @@
         });
         height.value = "";
         weight.value = "";
+        calculateBMIAverage();
         render();
       }
 
+      // 渲染畫面
       function render() {
         let str = "";
         bmiArray.forEach((item) => {
           str += `
           <li class="${item.border}">
-          <h3 class="${item.textColor}">${item.status}</h3>
+          <h4 class="${item.textColor}">${item.status}</h4>
           <p class="${item.textColor}">BMI ${item.bmi}</p>
           <p class="${item.textColor}">height：${item.heightNum}cm</p>
           <p class="${item.textColor}">weight：${item.weightNum}kg</p>
@@ -144,13 +148,24 @@
           `;
         });
         bmiList.innerHTML = str;
+        count.textContent = `總計測量 ${bmiArray.length} 次，平均BMI為 ${bmiAverage}`;
       }
 
+      // 計算BMI平均值
+      function calculateBMIAverage() {
+        const bmiTotal = bmiArray.reduce((prev, item, index) => {
+          return prev + Number(item.bmi);
+        }, 0);
+        bmiAverage = (bmiTotal / bmiArray.length).toFixed(2);
+      }
+
+      // 清除BMI列表
       function clearBMIList() {
         bmiArray.length = 0;
         render();
       }
 
+      // 按enter送出
       function submitData(e) {
         if (e.keyCode == 13) {
           addData();
