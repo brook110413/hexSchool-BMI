@@ -84,7 +84,7 @@
       function addData() {
         let heightNum = Number(height.value);
         let weightNum = Number(weight.value);
-        let bmi = (weightNum / Math.pow(heightNum / 100, 2)).toFixed(2);
+        let bmi = (weightNum / Math.pow(heightNum / 100, 2)).toFixed(1);
         let status;
         let border;
         let textColor;
@@ -153,16 +153,18 @@
 
       // 計算BMI平均值
       function calculateBMIAverage() {
-        const bmiTotal = bmiArray.reduce((prev, item, index) => {
+        const bmiTotal = bmiArray.reduce((prev, item) => {
           return prev + Number(item.bmi);
         }, 0);
-        bmiAverage = (bmiTotal / bmiArray.length).toFixed(2);
+        bmiAverage = (bmiTotal / bmiArray.length).toFixed(1);
       }
 
       // 清除BMI列表
       function clearBMIList() {
         bmiArray.length = 0;
+        bmiAverage = 0;
         render();
+        count.textContent = "";
       }
 
       // 按enter送出
